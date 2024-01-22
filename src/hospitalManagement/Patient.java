@@ -84,4 +84,27 @@ public class Patient {
         }
 
     }
+
+    public boolean getPatientById (int id)
+    {
+        String query="select * from patients where id=?";
+        try{
+            PreparedStatement pst= connection.prepareStatement(query);
+            pst.setInt(1,id);
+            ResultSet result=pst.executeQuery();
+            if(result.next())
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
