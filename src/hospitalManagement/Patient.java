@@ -1,8 +1,5 @@
 package hospitalManagement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLOutput;
+import java.sql.*;
 import java.util.*;
 
 
@@ -29,18 +26,24 @@ public class Patient {
 
         System.out.println("enter age:");
         int p_age=scanner.nextInt();
+        scanner.nextLine();
         System.out.println("Enter gender of patient");
         String p_gender=scanner.nextLine();
 
         try{
-            PreparedStatement pst= connection.prepareStatement(query);
+            PreparedStatement pst= connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1,p_name);
             pst.setInt(2,p_age);
             pst.setString(3,p_gender);
             int rowAffected=pst.executeUpdate();
-            if(rowAffected>0)
-            {
-                System.out.println("Patients added successfully......");
+            if(rowAffected>0) {
+                ResultSet generatedKeys = pst.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int userId = generatedKeys.getInt(1);
+                    System.out.println("Patient added successfully. UserId: " + userId);
+                } else {
+                    System.out.println("Error retrieving userid after adding patient.");
+                }
             }
             else {
                 System.out.println("error to add patient....");

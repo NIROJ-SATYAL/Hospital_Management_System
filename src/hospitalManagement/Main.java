@@ -74,7 +74,7 @@ public class Main {
 
                 switch(choice){
                     case 1:
-                        System.out.println("Add patient");
+                        patient.Add_Patient();
                         break;
                     case 2:
                         System.out.println("view patients");
