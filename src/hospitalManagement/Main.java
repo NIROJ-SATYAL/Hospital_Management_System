@@ -1,3 +1,4 @@
+package hospitalManagement;
 
 import java.util.Properties;
 import java.io.*;

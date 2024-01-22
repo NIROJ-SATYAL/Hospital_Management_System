@@ -1,0 +1,11 @@
+-create database hospital_management;
+-use hospital_management;
+-create table patients(id int primary key auto_increment ,name varchar(50) not null ,age int not null,gender varchar(10) not null);
+-describe patients;
+
+-create table Doctors(doctor_id int primary key auto_increment,name varchar(50) not null, specialization varchar(500) not null);
+-describe Doctors;
+
+
+-create table Appointments(appointment_id int primary key auto_increment,Patient_id int not null, Doctor_id int not null,FOREIGN KEY (patient_id) REFERENCES patients(id),foreign key (Doctor_id) references Doctors(doctor_id));
+-describe Appointments;
