@@ -77,7 +77,7 @@ public class Main {
                         patient.Add_Patient();
                         break;
                     case 2:
-                        System.out.println("view patients");
+                        patient.view_Patients();
                         break;
                     case 3:
                         System.out.println("view Doctors");

@@ -53,4 +53,35 @@ public class Patient {
         }
 
     }
+
+
+    public void view_Patients()
+    {
+
+        String query="select * from patients";
+        System.out.println("*********Patient List**********");
+
+        try {
+            PreparedStatement pst=connection.prepareStatement(query);
+            ResultSet result=pst.executeQuery();
+            System.out.println("Patients: ");
+            System.out.println("+------------+--------------------+----------+------------+");
+            System.out.println("| Patient Id | Name               | Age      | Gender     |");
+            System.out.println("+------------+--------------------+----------+------------+");
+
+                while (result.next()) {
+                    int id = result.getInt("id");
+                    String name = result.getString("name");
+                    int age = result.getInt("age");
+                    String gender = result.getString("gender");
+                    System.out.printf("| %-10s | %-18s | %-8s | %-10s |\n", id, name, age, gender);
+                    System.out.println("+------------+--------------------+----------+------------+");
+                }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
