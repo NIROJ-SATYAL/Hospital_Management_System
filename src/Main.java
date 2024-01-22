@@ -1,17 +1,39 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+
+import java.util.Properties;
+import java.io.*;
+
 public class Main {
-    public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+    private static String db_url ;
+    private static String db_username;
+    private static  String db_password;
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+
+
+    static{
+        loadDatabaseProperties();
+    }
+
+
+
+
+
+
+    private static void loadDatabaseProperties() {
+        try (InputStream input = Main.class.getClassLoader().getResourceAsStream("hospitalManagement/env.properties")) {
+            Properties properties = new Properties();
+            if (input != null) {
+                properties.load(input);
+                db_url = properties.getProperty("db_url");
+                db_username = properties.getProperty("db_username");
+                db_password = properties.getProperty("db_password");
+                System.out.println("credentials fetch successfully....");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+    public static void main(String[] args) {
+
     }
 }
