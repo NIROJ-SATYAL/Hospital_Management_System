@@ -59,6 +59,7 @@ public class Main {
 
             Doctor doctor=new Doctor(connection,scanner);
             Patient patient=new Patient(connection,scanner);
+            Appointments appointments=new Appointments(connection,scanner);
 
             while(true)
             {
@@ -83,7 +84,7 @@ public class Main {
                         System.out.println("view Doctors");
                         break;
                     case 4:
-                        System.out.println("book Appointment");
+                        appointments.Book_Appointment(patient,doctor);
                         break;
                     case 5:
                         System.out.println("THANK YOU! FOR USING HOSPITAL MANAGEMENT SYSTEM!!");
