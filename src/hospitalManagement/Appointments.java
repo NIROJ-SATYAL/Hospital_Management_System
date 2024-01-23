@@ -87,12 +87,11 @@ public class Appointments {
                                         String d_name=result.getString("doctor_name");
                                         String d_specialization =result.getString("specialization");
 
-                                        System.out.println(appointmentDate);
-                                        System.out.println(patient_name);
-                                        System.out.println(age);
-                                        System.out.println(gender);
-                                        System.out.println(d_name);
-                                        System.out.println(d_specialization);
+                                        System.out.println("+------------+--------------------+----------+--------------------------------------------------------------------------+");
+                                        System.out.println("| Appointment-Date| Patient-Name| Patient-Age| Patient-Gender | Doctor_Name |  Specialization");
+                                        System.out.println("+------------+--------------------+----------+----------------------------------------------------------------------------+");
+                                        System.out.printf("| %-10s | %-18s | %-8s | %-10s | %-10s | %-10s\n", appointmentDate, patient_name, age, gender,d_name,d_specialization);
+                                        System.out.println("+------------+--------------------+----------+--------------------------------------------------------------------------------+");
                                     }
 
                                 }
@@ -164,5 +163,60 @@ public class Appointments {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+
+    public void show_appointment()
+    {
+        String fetch_query="SELECT\n" +
+                "    \n" +
+                "    appointments.appointment_date,\n" +
+                "    \n" +
+                "    patients.name,\n" +
+                "    patients.age,\n" +
+                "    patients.gender,\n" +
+                "   \n" +
+                "    doctors.name AS doctor_name,\n" +
+                "    doctors.specialization\n" +
+                "FROM\n" +
+                "    appointments\n" +
+                "JOIN\n" +
+                "    patients ON appointments.Patient_id = patients.id\n" +
+                "JOIN\n" +
+                "    doctors ON appointments.Doctor_id = doctors.doctor_id";
+
+        System.out.println("*****************Appointment List**********");
+
+
+        try{
+            PreparedStatement fetch_pst=connection.prepareStatement(fetch_query);
+//            fetch_pst.setInt(1,appointment_id);
+
+            System.out.println("+------------+--------------------+----------+--------------------------------------------------------------------------+");
+            System.out.println("| Appointment-Date| Patient-Name| Patient-Age| Patient-Gender | Doctor_Name |  Specialization");
+            System.out.println("+------------+--------------------+----------+----------------------------------------------------------------------------+");
+            ResultSet result=fetch_pst.executeQuery();
+            while(result.next()){
+                String appointmentDate=result.getString("appointment_date");
+                String patient_name=result.getString("name");
+                int age=result.getInt("age");
+                String gender=result.getString("gender");
+                String d_name=result.getString("doctor_name");
+                String d_specialization =result.getString("specialization");
+
+
+                System.out.printf("| %-10s | %-18s | %-8s | %-10s | %-10s | %-10s\n", appointmentDate, patient_name, age, gender,d_name,d_specialization);
+
+            }
+            System.out.println("+------------+--------------------+----------+--------------------------------------------------------------------------------+");
+
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+
     }
 }

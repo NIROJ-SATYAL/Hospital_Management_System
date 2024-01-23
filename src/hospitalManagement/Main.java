@@ -68,7 +68,8 @@ public class Main {
                 System.out.println("2. View Patients");
                 System.out.println("3. View Doctors");
                 System.out.println("4. Book Appointment");
-                System.out.println("5. Exit");
+                System.out.println("5. Show Apppointment");
+                System.out.println("6. Exit");
                 System.out.println("Enter your choice: ");
                 int choice = scanner.nextInt();
 
@@ -87,8 +88,13 @@ public class Main {
                         appointments.Book_Appointment(patient,doctor);
                         break;
                     case 5:
+                            appointments.show_appointment();
+                            break;
+                    case 6:
+
                         System.out.println("THANK YOU! FOR USING HOSPITAL MANAGEMENT SYSTEM!!");
                         return;
+
                     default:
                         System.out.println("enter valid choice ");
                         break;
