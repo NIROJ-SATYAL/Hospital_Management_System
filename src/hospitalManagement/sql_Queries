@@ -6,6 +6,8 @@
 -create table Doctors(doctor_id int primary key auto_increment,name varchar(50) not null, specialization varchar(500) not null);
 -describe Doctors;
 
+insert into doctors(name,specialization) values ("DoctorName","specialization");
+
 
 -create table Appointments(appointment_id int primary key auto_increment,Patient_id int not null, Doctor_id int not null,FOREIGN KEY (patient_id) REFERENCES patients(id),foreign key (Doctor_id) references Doctors(doctor_id));
 - alter table appointments add column appointment_date date not null; //add another column 

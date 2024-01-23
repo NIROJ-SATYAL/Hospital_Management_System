@@ -44,7 +44,7 @@ public class Appointments {
                     String query ="insert into appointments(Patient_id,Doctor_id,appointment_date) values (?,?,?) ";
 
                     try{
-                        PreparedStatement pst=connection.prepareStatement(query);
+                        PreparedStatement pst=connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
                         pst.setInt(1,user_id);
                         pst.setInt(2,doctor_id);
                         pst.setString(3,a_date);
@@ -52,6 +52,58 @@ public class Appointments {
                         if(RowAffected>0)
                         {
                             System.out.println("Appointment successfully");
+
+                            ResultSet  generatedKeys=pst.getGeneratedKeys();
+                            if(generatedKeys.next())
+                            {
+                                int appointment_id = generatedKeys.getInt(1);
+                                String fetch_query="SELECT\n" +
+                                        "    \n" +
+                                        "    appointments.appointment_date,\n" +
+                                        "    \n" +
+                                        "    patients.name,\n" +
+                                        "    patients.age,\n" +
+                                        "    patients.gender,\n" +
+                                        "   \n" +
+                                        "    doctors.name AS doctor_name,\n" +
+                                        "    doctors.specialization\n" +
+                                        "FROM\n" +
+                                        "    appointments\n" +
+                                        "JOIN\n" +
+                                        "    patients ON appointments.Patient_id = patients.id\n" +
+                                        "JOIN\n" +
+                                        "    doctors ON appointments.Doctor_id = doctors.doctor_id \n" +
+                                        "    where appointment_id=?;";
+
+                                try{
+                                    PreparedStatement fetch_pst=connection.prepareStatement(fetch_query);
+                                    fetch_pst.setInt(1,appointment_id);
+                                    ResultSet result=fetch_pst.executeQuery();
+                                    if(result.next()){
+                                        String appointmentDate=result.getString("appointment_date");
+                                        String patient_name=result.getString("name");
+                                        int age=result.getInt("age");
+                                        String gender=result.getString("gender");
+                                        String d_name=result.getString("doctor_name");
+                                        String d_specialization =result.getString("specialization");
+
+                                        System.out.println(appointmentDate);
+                                        System.out.println(patient_name);
+                                        System.out.println(age);
+                                        System.out.println(gender);
+                                        System.out.println(d_name);
+                                        System.out.println(d_specialization);
+                                    }
+
+                                }
+                                catch(SQLException e)
+                                {
+                                   e.printStackTrace();
+                                }
+
+                            }
+
+
 
                         }
                         else {
@@ -87,7 +139,7 @@ public class Appointments {
 
 
     public boolean checkDoctorAvailability(int id ,String AppointmentDate){
-        String query="select count(*) as total_appointments from appointments where doctor_id=? and appointment_date=?";
+        String query="select count(*) as total_appointments from appointments where Doctor_id=? and appointment_date=?";
         try{
             PreparedStatement pst=connection.prepareStatement(query);
             pst.setInt(1,id);
@@ -97,7 +149,8 @@ public class Appointments {
             if(result.next())
             {
                 int appointment_id =result.getInt("total_appointments");
-                if(appointment_id==0)
+
+                if(appointment_id<=3)
                 {
                     return true;
                 }
